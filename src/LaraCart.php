@@ -66,7 +66,7 @@ class LaraCart implements LaraCartContract
      *
      * @return LaraCart
      */
-    public function setInstance($instance = 'default')
+    public function setInstance($instance = 'default', $dispatch = true)
     {
         $this->get($instance);
 
@@ -75,7 +75,9 @@ class LaraCart implements LaraCartContract
         if (!in_array($instance, $this->getInstances())) {
             $this->session->push($this->prefix.'.instances', $instance);
         }
-        $this->events->dispatch('laracart.new');
+        if($dispatch) {
+            $this->events->dispatch('laracart.new');
+        }
 
         return $this;
     }
